@@ -2,6 +2,10 @@
 const express = require("express");
 // Inkluderar cors för att tillåta alla domäner
 const cors = require("cors");
+
+// Hämtar in variabler från env-fil
+require('dotenv').config();
+
 const app = express();
 const port = process.env.DB_PORT || 3000;
 
