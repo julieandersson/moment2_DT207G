@@ -22,3 +22,19 @@ client.connect((err) => {
         console.log("Anslutningen lyckades.");
     }
 });
+
+
+// Skapar tabell
+client.query(`
+    DROP TABLE IF EXISTS workexperience;
+    CREATE TABLE workexperience (
+        id          SERIAL PRIMARY KEY,
+        companyname TEXT NOT NULL,
+        jobtitle    TEXT NOT NULL,
+        location    TEXT NOT NULL,
+        startdate   DATE NOT NULL,
+        enddate     DATE,
+        description TEXT NOT NULL,
+        created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+`);
