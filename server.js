@@ -41,7 +41,7 @@ app.get("/api", (req, res) => {
     res.json({message: "Välkommen till mitt API"});
 });
 
-// SQL-fråga, GET
+// GET-route - Hämtar arbetserfarenheter
 app.get("/api/workexperience", (req, res) => {
     client.query(`SELECT * FROM workexperience;`, (err, results) => {
         // Felmeddelande vid hämtning av arbetserfarenheter
@@ -51,7 +51,7 @@ app.get("/api/workexperience", (req, res) => {
         }
 
         // Om ingen data finns, skriv ut felmeddelande
-        if(results.length === 0) {
+        if(results.rows.length === 0) {
             res.status(404).json({message: "Inga arbetserfarenheter hittades."});
         // Annars, skriv ut datan
         } else {
@@ -61,7 +61,59 @@ app.get("/api/workexperience", (req, res) => {
     
 });
 
+// POST-route - Lägger till ny arbetserfarenhet
+app.post("/api/workexperience", (req, res) => {
+    let companyname = req.body.companyname;
+    let jobtitle = req.body.jobtitle;
+    let location = req.body.location;
+    let startdate = req.body.startdate;
+    let enddate = req.body.enddate;
+    let description = req.body.description;
 
+    // Errors
+    let errors = {
+        message: "",
+        detail: "",
+        https_response: {
+
+        }
+    };
+
+    if(!companyname || !jobtitle || !location || !startdate || !enddate || !description) {
+        // Felmeddelande vid error
+        errors.message = "Samtliga uppgifter är inte inkluderade";
+        errors.detail = "Du måste ange alla uppgifter";
+
+        //Respons
+        errors.https_response.message = "Felaktig förfrågan";
+        errors.https_response.code = 400;
+
+        res.status(400).json(errors);
+
+        return; // Stoppa om det blir fel
+    }
+
+    // Lägg till nytt jobb (arbetserfarenhet)
+    client.query(`INSERT INTO workexperience(companyname, jobtitle, location, startdate, enddate, description) VALUES($1, $2, $3, $4, $5, $6);`, [companyname, jobtitle, location, startdate, enddate, description], (err, results) => {
+        // Om något fel uppstår
+        if(err) {
+            res.status(500).json({error: "Något gick fel: " + err});
+            return;
+    }
+    
+        // Om inget fel och query lyckas så skapas objekt
+        let job = {
+        companyname: companyname,
+        jobtitle: jobtitle,
+        location: location,
+        startdate: startdate,
+        enddate: enddate,
+        description: description
+    };
+        // Meddelande när jobb har lagts till
+        res.json({message: "Jobb har lagts till", job});
+    }); 
+});
 
 // Startar applikation
 app.listen(port, () => {
