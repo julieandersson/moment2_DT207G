@@ -36,6 +36,32 @@ client.connect((err) => {
     }
 });
 
+// Routes
+app.get("/api", (req, res) => {
+    res.json({message: "Välkommen till mitt API"});
+});
+
+// SQL-fråga, GET
+app.get("/api/workexperience", (req, res) => {
+    client.query(`SELECT * FROM workexperience;`, (err, results) => {
+        // Felmeddelande vid hämtning av arbetserfarenheter
+        if(err) {
+            res.status(500).json({error: "Något gick fel: " + err});
+            return;
+        }
+
+        // Om ingen data finns, skriv ut felmeddelande
+        if(results.length === 0) {
+            res.status(404).json({message: "Inga arbetserfarenheter hittades."});
+        // Annars, skriv ut datan
+        } else {
+            res.json(results.rows);
+        }
+    });
+    
+});
+
+
 
 // Startar applikation
 app.listen(port, () => {
