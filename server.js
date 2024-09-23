@@ -115,6 +115,65 @@ app.post("/api/workexperience", (req, res) => {
     }); 
 });
 
+// PUT-route - Uppdatera jobberfarenhet
+app.put("/api/workexperience/:id", (req, res) => {
+    // Hämta jobb-ID från URL-paramentern
+    const jobId = req.params.id;
+    // Hämta jobbdatan från req-body
+    const jobData = req.body;
+
+    // SQL-fråga för att uppdatera jobberfarenhet i databasen
+    const updateQuery = `
+        UPDATE workexperience 
+        SET companyname = $1, jobtitle = $2, location = $3, startdate = $4, enddate = $5, description = $6 
+        WHERE id = $7`;
+
+    // Utför SQL-frågan med de angivna värdena
+    client.query(updateQuery, [
+        jobData.companyname,
+        jobData.jobtitle,
+        jobData.location,
+        jobData.startdate,
+        jobData.enddate,
+        jobData.description,
+        jobId
+    ], (err, results) => {
+        // Felhantering
+        if (err) {
+            return res.status(500).json({ error: "Något gick fel: " + err });
+        }
+        // Kontrollera om någon rad uppdaterades
+        if (results.rowCount === 0) {
+            // Om inget jobb hittas med det angivna ID:et
+            return res.status(404).json({ message: "Inget jobb kunde hittas med ID: " + jobId });
+        }
+
+        //Om uppdateringen lyckas, skicka meddelande
+        res.json({ message: "Jobb uppdaterat", jobId });
+    });
+});
+
+// DELETE-route - Ta bort jobberfarenhet
+app.delete("/api/workexperience/:id", (req, res) => {
+    const jobId = req.params.id; // Hämta jobb-ID från URL-parameter
+
+    // SQL-fråga för att ta bort jobbet
+    client.query(`DELETE FROM workexperience WHERE id = $1`, [jobId], (err, results) => {
+        // Kontrollera om det uppstod ett fel 
+        if (err) {
+            return res.status(500).json({ error: "Något blev fel: " + err });
+        }
+        // Kontrollera om jobbet hittades och togs bort
+        if (results.rowCount === 0) {
+            return res.status(404).json({ message: "Inget jobb hittades med ID: " + jobId });
+        }
+        // Om borttagningen lyckas, skicka meddelande
+        res.json({ message: "Jobbet har tagits bort", jobId });
+    });
+});
+
+
+
 // Startar applikation
 app.listen(port, () => {
     console.log("Server startad på port: " + port);
