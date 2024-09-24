@@ -172,8 +172,6 @@ app.delete("/api/workexperience/:id", (req, res) => {
     });
 });
 
-
-
 // Startar applikation
 app.listen(port, () => {
     console.log("Server startad på port: " + port);
