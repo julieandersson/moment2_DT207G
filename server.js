@@ -9,7 +9,7 @@ const cors = require("cors");
 // Använder cors
 app.use(cors());
 
-const port = process.env.DB_PORT || 3000;
+const port = process.env.PORT || 3000;
 
 // Hämtar in variabler från env-fil
 require('dotenv').config();
