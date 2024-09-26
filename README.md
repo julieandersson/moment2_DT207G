@@ -2,6 +2,9 @@
 ## README.md-fil för ett API
 Denna uppgift gick ut på att skapa en applikation som hanterar arbetserfarenheter som innehåller information om tidigare arbetsroller och tidsperioder. Detta repo innehåller koden för ett enklare REST API som är byggt med Node.js och Express. APIet hanterar CRUD-operationer och har möjlighet till "cross origin request"  för att möjliggöra att köra webbtjänsten från andra domäner. Datan som är infogad i databasen är fiktiv.
 
+### Länk
+APIet är publicerat via Render på länken: https://moment2-dt207g-bqqf.onrender.com/
+
 ### Installation, databas
 APIet har skapats med PostgreSQL som databas. Klona ner källkodsfilerna med kommandot:
 ```bash
