@@ -45,6 +45,6 @@ Ett kurs-objekt returneras/skickas som JSON med följande struktur:
 ### Skapad av:
 - Julie Andersson
 - Webbutvecklingsprogrammet på Mittuniversitetet i Sundsvall
-- Moment 4 i kursen DT208G Programmering i TypeScript
+- Moment 2.1 i kursen DT207G Backendbaserad Webbutveckling
 
 
