@@ -4,7 +4,7 @@ Denna uppgift gick ut på att skapa en applikation som hanterar arbetserfarenhet
 
 ### Länk
 APIet är publicerat via Render:
-https://moment2-dt207g-bqqf.onrender.com/
+https://moment2-dt207g-bqqf.onrender.com/, 
 https://moment2-dt207g-bqqf.onrender.com/api/workexperience
 
 ### Installation, databas
@@ -30,7 +30,7 @@ Nedan finns beskrivet hur man når APIet på olika vis:
 
 Vid POST och PUT krävs det att ett jobb-objekt skickas med.
 
-Ett kurs-objekt returneras/skickas som JSON med följande struktur:
+Ett objekt returneras/skickas som JSON med följande struktur:
 
 ```json
   {
